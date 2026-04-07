@@ -130,10 +130,18 @@
         faqList.addEventListener('click', function (e) {
             var btn = e.target.closest('.faq-question');
             if (!btn) return;
-            var item = btn.parentElement;
+            var item = btn.closest('.faq-item');
+            if (!item) return;
             var isOpen = item.classList.contains('faq-item--open');
-            $$('.faq-item--open', faqList).forEach(function (o) { o.classList.remove('faq-item--open'); });
-            if (!isOpen) item.classList.add('faq-item--open');
+            $$('.faq-item--open', faqList).forEach(function (o) {
+                o.classList.remove('faq-item--open');
+                var q = o.querySelector('.faq-question');
+                if (q) q.setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+                item.classList.add('faq-item--open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
         });
     }
 
@@ -281,7 +289,10 @@
                 if (p.x > canvas.width + 20) p.x = -20;
                 if (p.y < -20) p.y = canvas.height + 20;
                 if (p.y > canvas.height + 20) p.y = -20;
-                var r = Math.min(249, 200 + p.hue), g = Math.max(100, 115 - p.hue * .5), b = 22;
+                var warm = p.hue < 20;
+                var r = warm ? 143 : 126;
+                var g = warm ? 106 : 153;
+                var b = warm ? 63 : 140;
                 if (p.size > 2.5) {
                     var gl = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
                     gl.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (p.opacity * .25) + ')');

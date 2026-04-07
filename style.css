@@ -106,15 +106,27 @@ html::-webkit-scrollbar { display: none; }
 .gradient-orbs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
 .orb { position:absolute; border-radius:50%; filter:blur(100px); will-change:transform; }
 .orb--1 { width:600px; height:600px; background:#8f6a3f; opacity:.04; top:5%; left:10%; animation:orb-drift-1 25s ease-in-out infinite; }
-.orb--2 { width:500px; height:500px; background:#6432b4; opacity:.035; top:40%; right:5%; animation:orb-drift-2 30s ease-in-out infinite; }
+.orb--2 { width:500px; height:500px; background:#5f7f74; opacity:.035; top:40%; right:5%; animation:orb-drift-2 30s ease-in-out infinite; }
 .orb--3 { width:450px; height:450px; background:#8f6a3f; opacity:.03; bottom:15%; left:50%; animation:orb-drift-3 22s ease-in-out infinite; }
 @keyframes orb-drift-1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,-50px) scale(1.15)} 66%{transform:translate(-40px,60px) scale(.9)} }
 @keyframes orb-drift-2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-60px,40px) scale(1.1)} 70%{transform:translate(50px,-70px) scale(.85)} }
 @keyframes orb-drift-3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-80px,-50px) scale(1.2)} }
 
 /* â”€â”€ FAQ â”€â”€ */
-.faq-answer { max-height:0; overflow:hidden; transition:max-height .28s cubic-bezier(.4,0,.2,1); }
-.faq-item--open .faq-answer { max-height:600px; transition:max-height .5s cubic-bezier(.16,1,.3,1); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  opacity: 0;
+  transition: max-height .28s cubic-bezier(.4,0,.2,1), opacity .2s ease, padding .28s cubic-bezier(.4,0,.2,1);
+}
+.faq-item--open .faq-answer {
+  max-height: 600px;
+  padding-bottom: 1.25rem !important;
+  opacity: 1;
+  transition: max-height .5s cubic-bezier(.16,1,.3,1), opacity .25s ease .08s, padding .5s cubic-bezier(.16,1,.3,1);
+}
 .faq-item--open { border-color:rgba(143,106,63,.15) !important; box-shadow:0 4px 24px rgba(143,106,63,.04); background:rgba(143,106,63,.02); }
 .faq-item { border-bottom:1px solid var(--color-border); }
 .faq-item:first-child { border-top:1px solid var(--color-border); }
