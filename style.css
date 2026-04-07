@@ -106,7 +106,7 @@ html::-webkit-scrollbar { display: none; }
 .gradient-orbs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
 .orb { position:absolute; border-radius:50%; filter:blur(100px); will-change:transform; }
 .orb--1 { width:600px; height:600px; background:#8f6a3f; opacity:.04; top:5%; left:10%; animation:orb-drift-1 25s ease-in-out infinite; }
-.orb--2 { width:500px; height:500px; background:#6432b4; opacity:.035; top:40%; right:5%; animation:orb-drift-2 30s ease-in-out infinite; }
+.orb--2 { width:500px; height:500px; background:#5f7f74; opacity:.035; top:40%; right:5%; animation:orb-drift-2 30s ease-in-out infinite; }
 .orb--3 { width:450px; height:450px; background:#8f6a3f; opacity:.03; bottom:15%; left:50%; animation:orb-drift-3 22s ease-in-out infinite; }
 @keyframes orb-drift-1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,-50px) scale(1.15)} 66%{transform:translate(-40px,60px) scale(.9)} }
 @keyframes orb-drift-2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-60px,40px) scale(1.1)} 70%{transform:translate(50px,-70px) scale(.85)} }

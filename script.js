@@ -127,13 +127,50 @@
     function initFAQ() {
         var faqList = $('#faqList');
         if (!faqList) return;
+
+        function closeItem(item) {
+            if (!item) return;
+            item.classList.remove('faq-item--open');
+            var btn = $('.faq-question', item);
+            var answer = $('.faq-answer', item);
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+            if (answer) answer.style.maxHeight = '0px';
+        }
+
+        function openItem(item) {
+            if (!item) return;
+            item.classList.add('faq-item--open');
+            var btn = $('.faq-question', item);
+            var answer = $('.faq-answer', item);
+            if (btn) btn.setAttribute('aria-expanded', 'true');
+            if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+
+        $$('.faq-question', faqList).forEach(function (btn) {
+            btn.setAttribute('aria-expanded', 'false');
+        });
+
         faqList.addEventListener('click', function (e) {
             var btn = e.target.closest('.faq-question');
             if (!btn) return;
             var item = btn.parentElement;
             var isOpen = item.classList.contains('faq-item--open');
-            $$('.faq-item--open', faqList).forEach(function (o) { o.classList.remove('faq-item--open'); });
-            if (!isOpen) item.classList.add('faq-item--open');
+            $$('.faq-item--open', faqList).forEach(function (o) { closeItem(o); });
+            if (!isOpen) openItem(item);
+        });
+
+        faqList.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            var btn = e.target.closest('.faq-question');
+            if (!btn) return;
+            e.preventDefault();
+            btn.click();
+        });
+
+        window.addEventListener('resize', function () {
+            $$('.faq-item--open .faq-answer', faqList).forEach(function (answer) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            });
         });
     }
 
@@ -281,7 +318,10 @@
                 if (p.x > canvas.width + 20) p.x = -20;
                 if (p.y < -20) p.y = canvas.height + 20;
                 if (p.y > canvas.height + 20) p.y = -20;
-                var r = Math.min(249, 200 + p.hue), g = Math.max(100, 115 - p.hue * .5), b = 22;
+                var warm = p.hue < 20;
+                var r = warm ? 143 : 126;
+                var g = warm ? 106 : 153;
+                var b = warm ? 63 : 140;
                 if (p.size > 2.5) {
                     var gl = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
                     gl.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (p.opacity * .25) + ')');
