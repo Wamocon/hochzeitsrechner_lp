@@ -127,50 +127,21 @@
     function initFAQ() {
         var faqList = $('#faqList');
         if (!faqList) return;
-
-        function closeItem(item) {
-            if (!item) return;
-            item.classList.remove('faq-item--open');
-            var btn = $('.faq-question', item);
-            var answer = $('.faq-answer', item);
-            if (btn) btn.setAttribute('aria-expanded', 'false');
-            if (answer) answer.style.maxHeight = '0px';
-        }
-
-        function openItem(item) {
-            if (!item) return;
-            item.classList.add('faq-item--open');
-            var btn = $('.faq-question', item);
-            var answer = $('.faq-answer', item);
-            if (btn) btn.setAttribute('aria-expanded', 'true');
-            if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
-        }
-
-        $$('.faq-question', faqList).forEach(function (btn) {
-            btn.setAttribute('aria-expanded', 'false');
-        });
-
         faqList.addEventListener('click', function (e) {
             var btn = e.target.closest('.faq-question');
             if (!btn) return;
-            var item = btn.parentElement;
+            var item = btn.closest('.faq-item');
+            if (!item) return;
             var isOpen = item.classList.contains('faq-item--open');
-            $$('.faq-item--open', faqList).forEach(function (o) { closeItem(o); });
-            if (!isOpen) openItem(item);
-        });
-
-        faqList.addEventListener('keydown', function (e) {
-            if (e.key !== 'Enter' && e.key !== ' ') return;
-            var btn = e.target.closest('.faq-question');
-            if (!btn) return;
-            e.preventDefault();
-            btn.click();
-        });
-
-        window.addEventListener('resize', function () {
-            $$('.faq-item--open .faq-answer', faqList).forEach(function (answer) {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
+            $$('.faq-item--open', faqList).forEach(function (o) {
+                o.classList.remove('faq-item--open');
+                var q = o.querySelector('.faq-question');
+                if (q) q.setAttribute('aria-expanded', 'false');
             });
+            if (!isOpen) {
+                item.classList.add('faq-item--open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
         });
     }
 
